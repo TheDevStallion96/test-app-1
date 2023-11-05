@@ -6,6 +6,10 @@
             <a class="btn btn-success" href="{{ route('admin.users.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.user.title_singular') }}
             </a>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#csvImportModal">
+                {{ trans('global.app_csvImport') }}
+            </button>
+            @include('csvImport.modal', ['model' => 'User', 'route' => 'admin.users.parseCsvImport'])
         </div>
     </div>
 @endcan
@@ -35,6 +39,9 @@
                             {{ trans('cruds.user.fields.email_verified_at') }}
                         </th>
                         <th>
+                            {{ trans('cruds.user.fields.two_factor') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.user.fields.roles') }}
                         </th>
                         <th>
@@ -59,6 +66,10 @@
                             </td>
                             <td>
                                 {{ $user->email_verified_at ?? '' }}
+                            </td>
+                            <td>
+                                <span style="display:none">{{ $user->two_factor ?? '' }}</span>
+                                <input type="checkbox" disabled="disabled" {{ $user->two_factor ? 'checked' : '' }}>
                             </td>
                             <td>
                                 @foreach($user->roles as $key => $item)
